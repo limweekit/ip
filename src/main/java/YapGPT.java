@@ -50,6 +50,73 @@ public class YapGPT {
                 continue;
             }
 
+            if (input.startsWith("todo ")) {
+                String desc = input.substring(5);
+                if (desc.isEmpty()) {
+                    boxPrint("Usage: todo <description>");
+                    continue;
+                }
+                if (count >= tasks.length) {
+                    boxPrint("Sorry, the tasks list is full.");
+                    continue;
+                }
+                Task t = new ToDo(desc);
+                tasks[count++] = t;
+                boxPrint("Got it! I've added this ToDo task:\n  " + t
+                        + "\nNow you have " + count + " tasks in the list.");
+                continue;
+            }
+
+            if (input.startsWith("deadline ")) {
+                String body = input.substring(9);
+                String desc, by;
+                String[] parts = body.split(" /by ", 2);
+                desc = parts[0];
+                by = (parts.length > 1) ? parts[1] : "unspecified";
+                if (desc.isEmpty()) {
+                    boxPrint("Usage: deadline <description> /by <when>");
+                    continue;
+                }
+                if (count >= tasks.length) {
+                    boxPrint("Sorry, the tasks list is full.");
+                    continue;
+                }
+                Task t = new Deadline(desc, by);
+                tasks[count++] = t;
+                boxPrint("Got it! I've added this Deadline task:\n  " + t
+                        + "\nNow you have " + count + " tasks in the list.");
+                continue;
+            }
+
+            if (input.startsWith("event ")) {
+                String body = input.substring(6);
+                String desc, from = "unspecified", to = "unspecified";
+
+                String[] a = body.split(" /from ", 2);
+                desc = a[0];
+                if (a.length > 1) {
+                    String[] b = a[1].split(" /to ", 2);
+                    from = b[0];
+                    if (b.length > 1) {
+                        to = b[1];
+                    }
+                }
+
+                if (desc.isEmpty()) {
+                    boxPrint("Usage: event <description> /from <from> /to <to>");
+                    continue;
+                }
+                if (count >= tasks.length) {
+                    boxPrint("Sorry, the tasks list is full.");
+                    continue;
+                }
+                Task t = new Event(desc, from, to);
+                tasks[count++] = t;
+                boxPrint("Got it! I've added this Event task:\n  " + t
+                        + "\nNow you have " + count + " tasks in the list.");
+                continue;
+            }
+
             if (input.startsWith("mark ")) {
                 try {
                     int idx = Integer.parseInt(input.substring(5));
