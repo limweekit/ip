@@ -3,13 +3,15 @@ import java.util.Scanner;
 public class YapGPT {
 
     private static void boxPrint(String message) {
-        String divider = "___________________________________________\n"; // 43 underscores
-        System.out.println(divider + message + "\n" + divider);
+        String divider = "___________________________________________";
+        System.out.println(divider);
+        System.out.println(message.trim());
+        System.out.println(divider);
     }
 
     public static void main(String[] args) {
         final String welcomeMessage =
-                "Hello! I'm YapGPT, your favourite chatbot. \n"
+                "Hello! I'm YapGPT, your favourite chatbot.\n"
                         + "What can I do for you?";
 
         final String goodbyeMessage =
@@ -40,7 +42,7 @@ public class YapGPT {
                 if (count == 0) {
                     boxPrint("No tasks added yet.");
                 } else {
-                    String tasksMessage = "Here are the tasks in your list: \n";
+                    String tasksMessage = "Here are the tasks in your list:\n";
                     StringBuilder sb = new StringBuilder(tasksMessage);
                     for (int i = 0; i < count; i++) {
                         sb.append(i + 1).append(". ").append(tasks[i].toString()).append("\n");
@@ -62,7 +64,7 @@ public class YapGPT {
                 }
                 Task t = new ToDo(desc);
                 tasks[count++] = t;
-                boxPrint("Got it! I've added this ToDo task:\n  " + t
+                boxPrint("Got it! I've added this task:\n  " + t
                         + "\nNow you have " + count + " tasks in the list.");
                 continue;
             }
@@ -83,7 +85,7 @@ public class YapGPT {
                 }
                 Task t = new Deadline(desc, by);
                 tasks[count++] = t;
-                boxPrint("Got it! I've added this Deadline task:\n  " + t
+                boxPrint("Got it! I've added this task:\n  " + t
                         + "\nNow you have " + count + " tasks in the list.");
                 continue;
             }
@@ -112,7 +114,7 @@ public class YapGPT {
                 }
                 Task t = new Event(desc, from, to);
                 tasks[count++] = t;
-                boxPrint("Got it! I've added this Event task:\n  " + t
+                boxPrint("Got it! I've added this task:\n  " + t
                         + "\nNow you have " + count + " tasks in the list.");
                 continue;
             }
@@ -127,12 +129,7 @@ public class YapGPT {
                     Task t = tasks[idx - 1];
                     t.markAsDone();
 
-                    int rand = (int)(Math.random() * 2);
-                    String string1 = "Productive today are we? ";
-                    String string2 = "You're on a roll! ";
-                    String doneMessage = rand == 0 ? string1 : string2;
-
-                    boxPrint(doneMessage + "I've marked this task as done:\n  " + t);
+                    boxPrint("Nice! I've marked this task as done:\n  " + t);
                 } catch (NumberFormatException e) {
                     boxPrint("Please provide a valid number.");
                 }
