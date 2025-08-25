@@ -22,7 +22,8 @@ public class YapGPT {
 
         final String goodbyeMessage = "Bye! Hope to see you again soon!";
 
-        ArrayList<Task> tasks = new ArrayList<>();
+        Storage storage = new Storage();
+        ArrayList<Task> tasks = storage.load();
         Scanner sc = new Scanner(System.in);
 
         boxPrint(welcomeMessage);
@@ -48,26 +49,32 @@ public class YapGPT {
                 }
                 if (input.startsWith("todo")) {
                     handleTodo(input, tasks);
+                    storage.save(tasks);
                     continue;
                 }
                 if (input.startsWith("deadline")) {
                     handleDeadline(input, tasks);
+                    storage.save(tasks);
                     continue;
                 }
                 if (input.startsWith("event")) {
                     handleEvent(input, tasks);
+                    storage.save(tasks);
                     continue;
                 }
                 if (input.startsWith("mark")) {
                     handleMark(input, tasks);
+                    storage.save(tasks);
                     continue;
                 }
                 if (input.startsWith("unmark")) {
                     handleUnmark(input, tasks);
+                    storage.save(tasks);
                     continue;
                 }
                 if (input.startsWith("delete")) {
                     handleDelete(input, tasks);
+                    storage.save(tasks);
                     continue;
                 }
 
@@ -84,6 +91,7 @@ public class YapGPT {
     }
 
     // Handlers
+
     private static void handleList(ArrayList<Task> tasks) {
         if (tasks.isEmpty()) {
             boxPrint("No tasks added yet.");
@@ -96,7 +104,6 @@ public class YapGPT {
                 sb.append("\n");
             }
         }
-
         boxPrint(sb.toString());
     }
 
