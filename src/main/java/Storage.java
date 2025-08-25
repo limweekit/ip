@@ -1,6 +1,7 @@
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.*;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -79,12 +80,13 @@ public class Storage {
             switch (type) {
                 case "T" -> t = new ToDo(desc);
                 case "D" -> {
-                    String by = parts.length > 3 ? parts[3] : "unspecified";
+                    String rawBy = parts[3];
+                    LocalDateTime by = DateParser.parseFlexibleDateTime(rawBy);
                     t = new Deadline(desc, by);
                 }
                 case "E" -> {
-                    String from = parts.length > 3 ? parts[3] : "unspecified";
-                    String to = parts.length > 4 ? parts[4] : "unspecified";
+                    LocalDateTime from = DateParser.parseFlexibleDateTime(parts[3]);
+                    LocalDateTime to   = DateParser.parseFlexibleDateTime(parts[4]);
                     t = new Event(desc, from, to);
                 }
                 default -> { return null; } // corrupted or unknown type

@@ -78,6 +78,11 @@ public class YapGPT {
                     continue;
                 }
 
+                if (input.startsWith("on")) {
+                    handleOn(input, tasks);
+                    continue;
+                }
+
                 // If none matched, it means unknown command or error class I haven't created
                 throw new UnknownCommandException(input);
 
@@ -125,11 +130,26 @@ public class YapGPT {
         String body = requireArg(input, "deadline", 8);
         String[] parts = body.split("/by", 2);
         String desc = parts[0].trim();
-        if (desc.isEmpty()) throw new EmptyDescriptionException("deadline");
 
-        String by = (parts.length > 1) ? parts[1].trim() : "unspecified";
+        if (desc.isEmpty()) {
+            throw new EmptyDescriptionException("deadline");
+        }
+        if (parts.length < 2 || parts[1].trim().isEmpty()) {
+            throw new InvalidDateException("deadline", "(missing)");
+        }
+
+        String rawBy = parts[1].trim();
+        java.time.LocalDateTime by;
+
+        try {
+            by = DateParser.parseFlexibleDateTime(rawBy);
+        } catch (IllegalArgumentException ex) {
+            throw new InvalidDateException("deadline", rawBy);
+        }
+
         Task t = new Deadline(desc, by);
         tasks.add(t);
+
         boxPrint("Got it! I've added this task:\n  " + t
                 + "\nNow you have " + tasks.size() + " tasks in the list.");
     }
@@ -138,16 +158,41 @@ public class YapGPT {
         String body = requireArg(input, "event", 5);
         String[] a = body.split("/from", 2);
         String desc = a[0].trim();
-        if (desc.isEmpty()) throw new EmptyDescriptionException("event");
 
-        String from = "unspecified", to = "unspecified";
-        if (a.length > 1) {
-            String[] b = a[1].split("/to", 2);
-            from = b[0].trim();
-            if (b.length > 1) to = b[1].trim();
+        if (desc.isEmpty()) {
+            throw new EmptyDescriptionException("event");
         }
+        if (a.length < 2 || a[1].trim().isEmpty()) {
+            throw new InvalidDateException("event start", "(missing)");
+        }
+
+        String[] b = a[1].split("/to", 2);
+        String fromRaw = b[0].trim();
+
+        if (fromRaw.isEmpty()) {
+            throw new InvalidDateException("event start", "(missing)");
+        }
+        if (b.length < 2 || b[1].trim().isEmpty()) {
+            throw new InvalidDateException("event end", "(missing)");
+        }
+
+        String toRaw = b[1].trim();
+        java.time.LocalDateTime from, to;
+
+        try {
+            from = DateParser.parseFlexibleDateTime(fromRaw);
+        } catch (IllegalArgumentException ex) {
+            throw new InvalidDateException("event start", fromRaw);
+        }
+        try {
+            to = DateParser.parseFlexibleDateTime(toRaw);
+        } catch (IllegalArgumentException ex) {
+            throw new InvalidDateException("event end", toRaw);
+        }
+
         Task t = new Event(desc, from, to);
         tasks.add(t);
+
         boxPrint("Got it! I've added this task:\n  " + t
                 + "\nNow you have " + tasks.size() + " tasks in the list.");
     }
@@ -186,6 +231,42 @@ public class YapGPT {
         boxPrint("Noted. I've removed this task:\n  " + removed
                 + "\nNow you have " + tasks.size() + " tasks in the list.");
     }
+
+    private static void handleOn(String input, ArrayList<Task> tasks) throws YapGPTException {
+        String arg = requireArg(input, "on", 2);
+        java.time.LocalDate queryDate;
+        try {
+            queryDate = DateParser.parseFlexibleDateTime(arg).toLocalDate();
+        } catch (Exception e) {
+            throw new InvalidDateException("query", arg);
+        }
+
+        StringBuilder sb = new StringBuilder("Here are the tasks on "
+                + queryDate.format(DateParser.OUT_DATE) + ":\n");
+
+        int count = 0;
+        for (Task t : tasks) {
+            if (t instanceof Deadline d) {
+                if (d.getBy().toLocalDate().equals(queryDate)) {
+                    sb.append("- ").append(d).append("\n");
+                    count++;
+                }
+            } else if (t instanceof Event ev) {
+                java.time.LocalDate from = ev.getFrom().toLocalDate();
+                java.time.LocalDate to   = ev.getTo().toLocalDate();
+                if (!queryDate.isBefore(from) && !queryDate.isAfter(to)) {
+                    sb.append("- ").append(ev).append("\n");
+                    count++;
+                }
+            }
+        }
+        if (count == 0) {
+            boxPrint("No tasks found on that date.");
+        } else {
+            boxPrint(sb.toString());
+        }
+    }
+
 }
 
 

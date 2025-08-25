@@ -1,19 +1,32 @@
-public class Deadline extends Task {
-    protected String by;
+import java.time.LocalDateTime;
 
-    public Deadline(String description, String by) {
+public class Deadline extends Task {
+    protected LocalDateTime by;
+
+    public Deadline(String description, LocalDateTime by) {
         super(description, TaskType.DEADLINE);
         this.by = by;
+    }
+
+    public LocalDateTime getBy() {
+        return by;
     }
 
     @Override
     public String serialize() {
         int done = isDone ? 1 : 0;
-        return String.format("D | %d | %s | %s", done, description, by);
+        String formatBy = by.getHour() == 0 && by.getMinute() == 0
+                ? by.toLocalDate().toString()
+                : by.format(java.time.format.DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"));
+
+        return String.format("D | %d | %s | %s", done, description, formatBy);
     }
 
     @Override
     public String toString() {
-        return super.toString() + " (By: " + by + ")";
+        String formatBy = by.getHour() == 0 && by.getMinute() == 0
+                ? by.format(DateParser.OUT_DATE)
+                : by.format(DateParser.OUT_DATE_TIME);
+        return super.toString() + " (By: " + formatBy + ")";
     }
 }

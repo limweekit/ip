@@ -1,21 +1,48 @@
-public class Event extends Task {
-    protected String from;
-    protected String to;
+import java.time.LocalDateTime;
 
-    public Event(String description, String from, String to) {
+public class Event extends Task {
+    protected LocalDateTime from;
+    protected LocalDateTime to;
+
+    public Event(String description, LocalDateTime from, LocalDateTime to) {
         super(description, TaskType.EVENT);
         this.from = from;
         this.to = to;
     }
 
+    public LocalDateTime getFrom() {
+        return from;
+    }
+
+    public LocalDateTime getTo() {
+        return to;
+    }
+
     @Override
     public String serialize() {
         int done = isDone ? 1 : 0;
-        return String.format("E | %d | %s | %s | %s", done, description, from, to);
+        String formatFrom = from.getHour()==0 && from.getMinute()==0
+                ? from.toLocalDate().toString()
+                : from.format(java.time.format.DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"));
+
+        String formatTo = to.getHour()==0 && to.getMinute()==0
+                ? to.toLocalDate().toString()
+                : to.format(java.time.format.DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"));
+
+        return String.format("E | %d | %s | %s | %s", done, description, formatFrom, formatTo);
     }
 
     @Override
     public String toString() {
-        return super.toString() + " (From: " + this.from + " To: " + this.to + ")";
+        String formatFrom = from.getHour() == 0 && from.getMinute() == 0
+                ? from.format(DateParser.OUT_DATE)
+                : from.format(DateParser.OUT_DATE_TIME);
+
+        String formatTo = to.getHour() == 0 && to.getMinute() == 0
+                ? to.format(DateParser.OUT_DATE)
+                : to.format(DateParser.OUT_DATE_TIME);
+
+        return super.toString() + " (From: " + formatFrom + " To: " + formatTo + ")";
     }
 }
+
