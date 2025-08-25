@@ -21,6 +21,11 @@ public class Task {
         this.isDone = false;
     }
 
+    public String serialize() {
+        int done = isDone ? 1 : 0;
+        return String.format("%s | %d | %s", type.getSymbol(), done, description);
+    }
+
     @Override
     public String toString() {
         return "[" + type.getSymbol() + "] [" + getStatusIcon() + "] " + description;

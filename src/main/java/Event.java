@@ -9,6 +9,12 @@ public class Event extends Task {
     }
 
     @Override
+    public String serialize() {
+        int done = isDone ? 1 : 0;
+        return String.format("E | %d | %s | %s | %s", done, description, from, to);
+    }
+
+    @Override
     public String toString() {
         return super.toString() + " (From: " + this.from + " To: " + this.to + ")";
     }
