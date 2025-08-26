@@ -1,4 +1,7 @@
+package model;
+
 import java.time.LocalDateTime;
+import parser.DateParser;
 
 public class Deadline extends Task {
     protected LocalDateTime by;

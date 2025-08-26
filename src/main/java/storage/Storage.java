@@ -1,6 +1,19 @@
+package storage;
+
+import model.Deadline;
+import model.Event;
+import model.Task;
+import model.ToDo;
+import parser.DateParser;
+
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
-import java.nio.file.*;
+import java.nio.file.AtomicMoveNotSupportedException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
+import java.nio.file.StandardOpenOption;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -9,14 +22,19 @@ public class Storage {
     private final Path dataFile;
 
     public Storage() {
-        this.dataFile = Paths.get("data", "yapgpt.txt");
+        this(Paths.get("data", "yapgpt.txt").toString());
+    }
+
+    public Storage(String filePath) {
+        this.dataFile = Paths.get(filePath);
     }
 
     public ArrayList<Task> load() {
         ArrayList<Task> tasks = new ArrayList<>();
         try {
-            if (Files.notExists(dataFile.getParent())) {
-                Files.createDirectories(dataFile.getParent());
+            Path dir = dataFile.getParent();
+            if (dir != null && Files.notExists(dir)) {
+                Files.createDirectories(dir);
             }
             if (Files.notExists(dataFile)) {
                 Files.createFile(dataFile);
@@ -42,11 +60,12 @@ public class Storage {
             lines.add(t.serialize());
         }
         try {
-            if (Files.notExists(dataFile.getParent())) {
-                Files.createDirectories(dataFile.getParent());
+            Path dir = dataFile.getParent();
+            if (dir != null && Files.notExists(dir)) {
+                Files.createDirectories(dir);
             }
 
-            Path tmp = Files.createTempFile(dataFile.getParent(), "yapgpt", ".tmp");
+            Path tmp = Files.createTempFile(dir != null ? dir : Paths.get("."), "yapgpt", ".tmp");
             Files.write(tmp, lines, StandardCharsets.UTF_8, StandardOpenOption.TRUNCATE_EXISTING);
 
             try {
@@ -61,40 +80,69 @@ public class Storage {
 
     /**
      * Decode a line from file into a Task.
-     * Expected formats for each task type:
+     * Expected formats:
      * T | 1 | desc
      * D | 0 | desc | by
      * E | 1 | desc | from | to
-     **/
+     */
     private Task decode(String line) {
-        if (line == null || line.isBlank()) {
-            return null;
-        }
+        if (line == null) return null;
+
+        line = line.replace("\uFEFF", "").trim();
+        if (line.isEmpty()) return null;
+
+        if (line.startsWith("#") || line.startsWith("//")) return null;
+
+        String[] parts = line.split("\\s*\\|\\s*", 5);
+        if (parts.length < 3) return null;
+
         try {
-            String[] parts = line.split("\\s*\\|\\s*");
-            String type = parts[0];
-            int done = Integer.parseInt(parts[1]);
+            String type = parts[0].trim();
+            int done = Integer.parseInt(parts[1].trim());
             String desc = parts[2];
 
             Task t;
             switch (type) {
-                case "T" -> t = new ToDo(desc);
+                case "T" -> {
+                    t = new ToDo(desc);
+                }
                 case "D" -> {
-                    String rawBy = parts[3];
+                    if (parts.length < 4) return null;
+                    String rawBy = stripTrailingComment(parts[3]).trim();
                     LocalDateTime by = DateParser.parseFlexibleDateTime(rawBy);
                     t = new Deadline(desc, by);
                 }
                 case "E" -> {
-                    LocalDateTime from = DateParser.parseFlexibleDateTime(parts[3]);
-                    LocalDateTime to   = DateParser.parseFlexibleDateTime(parts[4]);
+                    if (parts.length < 5) return null;
+                    String rawFrom = stripTrailingComment(parts[3]).trim();
+                    String rawTo   = stripTrailingComment(parts[4]).trim();
+                    LocalDateTime from = DateParser.parseFlexibleDateTime(rawFrom);
+                    LocalDateTime to   = DateParser.parseFlexibleDateTime(rawTo);
                     t = new Event(desc, from, to);
                 }
-                default -> { return null; } // corrupted or unknown type
+                default -> {
+                    return null;
+                }
             }
             if (done == 1) t.markAsDone();
             return t;
         } catch (Exception e) {
             return null; // skip corrupted lines
         }
+    }
+
+    private static String stripTrailingComment(String s) {
+        if (s == null) {
+            return null;
+        }
+        int i = s.indexOf("//");
+        if (i >= 0) {
+            return s.substring(0, i);
+        }
+        i = s.indexOf('#');
+        if (i >= 0) {
+            return s.substring(0, i);
+        }
+        return s;
     }
 }

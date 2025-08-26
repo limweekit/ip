@@ -1,4 +1,8 @@
+package model;
+
 import java.time.LocalDateTime;
+import parser.DateParser;
+
 
 public class Event extends Task {
     protected LocalDateTime from;
