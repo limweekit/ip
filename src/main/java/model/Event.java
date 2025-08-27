@@ -3,7 +3,9 @@ package model;
 import java.time.LocalDateTime;
 import parser.DateParser;
 
-
+/**
+ * A task that contains two dates, specifying the start and end dates of the task.
+ */
 public class Event extends Task {
     protected LocalDateTime from;
     protected LocalDateTime to;

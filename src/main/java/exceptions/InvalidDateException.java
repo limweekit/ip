@@ -1,5 +1,9 @@
 package exceptions;
 
+/**
+ * Thrown when an invalid date is provided.
+ * Applicable to deadline, event, on <date>.
+ */
 public class InvalidDateException extends YapGPTException {
     public InvalidDateException(String when, String raw) {
         super("Invalid " + when + " date/time: \"" + raw + "\".\n"

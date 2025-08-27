@@ -8,6 +8,9 @@ import storage.Storage;
 
 import java.time.LocalDateTime;
 
+/**
+ * Handles adding a Deadline task to the task list.
+ */
 public class AddDeadlineCommand extends Command {
     private final String desc;
     private final LocalDateTime by;

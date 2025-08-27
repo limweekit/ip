@@ -8,6 +8,9 @@ import storage.Storage;
 
 import java.time.LocalDateTime;
 
+/**
+ * Handles adding an Event task to the task list.
+ */
 public class AddEventCommand extends Command {
     private final String desc;
     private final LocalDateTime from, to;

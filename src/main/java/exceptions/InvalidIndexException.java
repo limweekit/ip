@@ -1,5 +1,9 @@
 package exceptions;
 
+/**
+ * Thrown when an invalid index is provided.
+ * Applicable to mark, unmark, delete.
+ */
 public class InvalidIndexException extends YapGPTException {
     public InvalidIndexException(String action, int max) {
         super(max == 0

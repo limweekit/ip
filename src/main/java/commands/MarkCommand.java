@@ -6,9 +6,12 @@ import model.Task;
 import model.TaskList;
 import storage.Storage;
 
+/**
+ * Handles marking a task on the task list based on its index number.
+ */
 public class MarkCommand extends Command {
     private final int idx;
-    public MarkCommand(int idx1) { this.idx = idx1; }
+    public MarkCommand(int idx) { this.idx = idx; }
 
     @Override
     public void execute(TaskList tasks, Ui ui, Storage storage) throws InvalidIndexException {

@@ -10,6 +10,9 @@ import storage.Storage;
 
 import java.time.LocalDate;
 
+/**
+ * Handles the rendering of the list of tasks that occur on the query date.
+ */
 public class OnDateCommand extends Command {
     private final LocalDate queryDate;
     public OnDateCommand(LocalDate queryDate) { this.queryDate = queryDate; }

@@ -3,6 +3,9 @@ package model;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * A list of tasks, utilizing the ArrayList implementation.
+ */
 public class TaskList {
     private final ArrayList<Task> tasks;
 

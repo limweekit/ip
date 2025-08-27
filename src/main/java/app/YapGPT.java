@@ -6,12 +6,24 @@ import model.TaskList;
 import parser.Parser;
 import storage.Storage;
 
+/**
+ * Entry point and main application of YapGPT.
+ * Responsible for wiring together the UI, storage, and in-memory task list,
+ * then running the read–parse–execute cycle until an exit command is issued.
+ */
 public class YapGPT {
 
     private final Storage storage;
     private TaskList tasks;
     private final Ui ui;
 
+
+    /**
+     * Creates a YapGPT application bound to the given storage file.
+     * Attempts to load existing tasks from storage; on failure, start with an empty list.
+     *
+     * @param filePath Path to the persistent tasks file (data/yapgpt.txt).
+     */
     public YapGPT(String filePath) {
         this.ui = new Ui();
         this.storage = new Storage(filePath);
@@ -23,6 +35,9 @@ public class YapGPT {
         }
     }
 
+    /**
+     * Runs the main application loop.
+     */
     public void run() {
         ui.showWelcome();
         boolean isExit = false;
@@ -40,6 +55,11 @@ public class YapGPT {
         }
     }
 
+    /**
+     * Application entry point.
+     *
+     * @param args Command-line arguments (unused).
+     */
     public static void main(String[] args) {
         new YapGPT("data/yapgpt.txt").run();
     }
