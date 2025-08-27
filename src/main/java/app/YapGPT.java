@@ -27,6 +27,7 @@ public class YapGPT {
     public YapGPT(String filePath) {
         this.ui = new Ui();
         this.storage = new Storage(filePath);
+
         try {
             this.tasks = new TaskList(storage.load());
         } catch (Exception e) {
@@ -41,6 +42,7 @@ public class YapGPT {
     public void run() {
         ui.showWelcome();
         boolean isExit = false;
+
         while (!isExit) {
             String fullCommand = ui.readCommand();
             try {

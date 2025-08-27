@@ -33,6 +33,7 @@ public class Deadline extends Task {
         String formatBy = by.getHour() == 0 && by.getMinute() == 0
                 ? by.format(DateParser.OUT_DATE)
                 : by.format(DateParser.OUT_DATE_TIME);
+
         return super.toString() + " (By: " + formatBy + ")";
     }
 }

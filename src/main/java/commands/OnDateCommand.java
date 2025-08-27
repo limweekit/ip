@@ -15,7 +15,10 @@ import java.time.LocalDate;
  */
 public class OnDateCommand extends Command {
     private final LocalDate queryDate;
-    public OnDateCommand(LocalDate queryDate) { this.queryDate = queryDate; }
+
+    public OnDateCommand(LocalDate queryDate) {
+        this.queryDate = queryDate;
+    }
 
     @Override
     public void execute(TaskList tasks, Ui ui, Storage storage) {

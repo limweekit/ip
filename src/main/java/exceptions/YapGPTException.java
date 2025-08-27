@@ -10,5 +10,7 @@ public class YapGPTException extends Exception {
      *
      * @param message The error message to be displayed to user.
      */
-    public YapGPTException(String message) { super(message); }
+    public YapGPTException(String message) {
+        super(message);
+    }
 }

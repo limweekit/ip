@@ -90,16 +90,20 @@ public class Storage {
      * E | 1 | desc | from | to
      */
     private Task decode(String line) {
-        if (line == null) return null;
-
+        if (line == null) {
+            return null;
+        }
         line = line.replace("\uFEFF", "").trim();
-        if (line.isEmpty()) return null;
-
-        if (line.startsWith("#") || line.startsWith("//")) return null;
-
+        if (line.isEmpty()) {
+            return null;
+        }
+        if (line.startsWith("#") || line.startsWith("//")) {
+            return null;
+        }
         String[] parts = line.split("\\s*\\|\\s*", 5);
-        if (parts.length < 3) return null;
-
+        if (parts.length < 3) {
+            return null;
+        }
         try {
             String type = parts[0].trim();
             int done = Integer.parseInt(parts[1].trim());
@@ -126,7 +130,9 @@ public class Storage {
                     return null;
                 }
             }
-            if (done == 1) t.markAsDone();
+            if (done == 1) {
+                t.markAsDone();
+            }
             return t;
         } catch (Exception e) {
             return null; // skip corrupted lines

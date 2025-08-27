@@ -14,8 +14,11 @@ import java.time.LocalDateTime;
 public class AddEventCommand extends Command {
     private final String desc;
     private final LocalDateTime from, to;
+
     public AddEventCommand(String desc, LocalDateTime from, LocalDateTime to) {
-        this.desc = desc; this.from = from; this.to = to;
+        this.desc = desc;
+        this.from = from;
+        this.to = to;
     }
 
     @Override

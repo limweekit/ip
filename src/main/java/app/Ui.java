@@ -4,7 +4,7 @@ import java.util.Scanner;
 
 public class Ui {
     private final Scanner sc = new Scanner(System.in);
-    private static final String divider = "___________________________________________";
+    private static final String DIV = "___________________________________________";
 
     /**
      * Prints the welcome message upon initially running the programme.
@@ -27,9 +27,9 @@ public class Ui {
      * @param message The message to be printed.
      */
     public void boxPrint(String message) {
-        System.out.println(divider);
+        System.out.println(DIV);
         System.out.println(message);
-        System.out.println(divider);
+        System.out.println(DIV);
     }
 
     /**
@@ -48,7 +48,9 @@ public class Ui {
      */
     public String readCommand() {
         System.out.print("You: ");
-        if (!sc.hasNextLine()) return null;
+        if (!sc.hasNextLine()) {
+            return null;
+        }
         return sc.nextLine().trim();
     }
 

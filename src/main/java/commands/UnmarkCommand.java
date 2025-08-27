@@ -11,14 +11,19 @@ import storage.Storage;
  */
 public class UnmarkCommand extends Command {
     private final int idx;
-    public UnmarkCommand(int idx1) { this.idx = idx1; }
+    public UnmarkCommand(int idx) {
+        this.idx = idx;
+    }
 
     @Override
     public void execute(TaskList tasks, Ui ui, Storage storage) throws InvalidIndexException {
         int size = tasks.size();
-        if (size == 0) throw new InvalidIndexException("unmark", 0);
-        if (idx < 1 || idx > size) throw new InvalidIndexException("unmark", size);
-
+        if (size == 0) {
+            throw new InvalidIndexException("unmark", 0);
+        }
+        if (idx < 1 || idx > size) {
+            throw new InvalidIndexException("unmark", size);
+        }
         Task t = tasks.get(idx);
         t.markAsUndone();
         ui.boxPrint("OK, I've marked this task as not done yet:\n  " + t);
