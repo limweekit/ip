@@ -30,6 +30,11 @@ public class Task {
         return isDone ? "X" : " ";
     }
 
+    /**
+     * Returns the description of the task.
+     *
+     * @return A string representation of the task description.
+     */
     public String getDescription() {
         return this.description;
     }

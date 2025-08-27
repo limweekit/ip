@@ -45,7 +45,6 @@ public class DateParser {
             }
             catch (DateTimeParseException ignored) {}
         }
-
         for (DateTimeFormatter f : DATE_ONLY_INPUTS) {
             try {
                 return LocalDate.parse(text, f).atStartOfDay();

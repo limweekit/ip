@@ -40,6 +40,6 @@ public class OnDateCommand extends Command {
                 }
             }
         }
-        ui.boxPrint(count == 0 ? "No tasks found on that date." : sb.toString());
+        ui.boxPrint(count == 0 ? "Oops! No tasks found on that date." : sb.toString());
     }
 }

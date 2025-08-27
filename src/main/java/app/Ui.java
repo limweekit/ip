@@ -2,6 +2,9 @@ package app;
 
 import java.util.Scanner;
 
+/**
+ * Handles user inputs and displays messages to the user.
+ */
 public class Ui {
     private final Scanner sc = new Scanner(System.in);
     private static final String DIV = "___________________________________________";

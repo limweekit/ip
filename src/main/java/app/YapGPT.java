@@ -12,11 +12,9 @@ import storage.Storage;
  * then running the read–parse–execute cycle until an exit command is issued.
  */
 public class YapGPT {
-
     private final Storage storage;
     private TaskList tasks;
     private final Ui ui;
-
 
     /**
      * Creates a YapGPT application bound to the given storage file.

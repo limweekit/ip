@@ -1,7 +1,7 @@
 package exceptions;
 
 /**
- * Checked exceptions for errors while running YapGPT.
+ * Checked exceptions while running YapGPT.
  */
 public class YapGPTException extends Exception {
 

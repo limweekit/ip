@@ -17,7 +17,9 @@ public class TaskList {
         this.tasks = new ArrayList<>(initial);
     }
 
-    public int size() { return tasks.size(); }
+    public int size() {
+        return tasks.size();
+    }
 
     public Task get(int idx) {
         return tasks.get(idx - 1);
@@ -35,6 +37,11 @@ public class TaskList {
         return tasks;
     }
 
+    /**
+     * Handles the formatting of the list message.
+     *
+     * @return List of current tasks.
+     */
     public String renderList() {
         if (tasks.isEmpty()) {
             return "No tasks added yet.";
@@ -42,7 +49,9 @@ public class TaskList {
         StringBuilder sb = new StringBuilder("Here are the tasks in your list:\n");
         for (int i = 0; i < tasks.size(); i++) {
             sb.append(i + 1).append(". ").append(tasks.get(i));
-            if (i < tasks.size() - 1) sb.append("\n");
+            if (i < tasks.size() - 1) {
+                sb.append("\n");
+            }
         }
         return sb.toString();
     }

@@ -11,6 +11,7 @@ import storage.Storage;
  */
 public class UnmarkCommand extends Command {
     private final int idx;
+
     public UnmarkCommand(int idx) {
         this.idx = idx;
     }
