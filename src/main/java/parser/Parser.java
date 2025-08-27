@@ -117,6 +117,11 @@ public class Parser {
             return new OnDateCommand(queryDate);
         }
 
+        if (input.startsWith("find")) {
+            String body = requireArg(input, "find", 4);
+            return new FindCommand(body);
+        }
+
         throw new UnknownCommandException(input);
     }
 

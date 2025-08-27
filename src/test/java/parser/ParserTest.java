@@ -184,6 +184,18 @@ class ParserTest {
         assertThrows(InvalidDateException.class, () -> Parser.parse("on notADate"));
     }
 
+    // find
+
+    @Test
+    void parse_findValid_returnsFindCommand() throws YapGPTException {
+        assertInstanceOf(FindCommand.class, Parser.parse("find book"));
+    }
+
+    @Test
+    void parse_findEmpty_throwsEmptyDescriptionException() {
+        assertThrows(EmptyDescriptionException.class, () -> Parser.parse("find   "));
+    }
+
     // unknown commands
 
     @Test

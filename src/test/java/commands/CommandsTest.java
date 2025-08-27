@@ -219,6 +219,26 @@ class CommandsTest {
     }
 
     @Test
+    void find_singleAndMultiWordQueries_matchExpectedTasks() throws YapGPTException {
+        new AddTodoCommand("read book").execute(tasks, ui, storage);
+        new AddTodoCommand("return Book to library").execute(tasks, ui, storage);
+        new AddTodoCommand("buy milk").execute(tasks, ui, storage);
+
+        // single word
+        new FindCommand("book").execute(tasks, ui, storage);
+        String out1 = ui.lastBox();
+        assertTrue(out1.contains("read book"));
+        assertTrue(out1.toLowerCase().contains("return book"));
+        assertFalse(out1.contains("buy milk"));
+
+        // multi-word AND
+        new FindCommand("return library").execute(tasks, ui, storage);
+        String out2 = ui.lastBox();
+        assertTrue(out2.toLowerCase().contains("return book to library"));
+        assertFalse(out2.contains("read book"));
+    }
+
+    @Test
     void exitCommand_bye_showsGoodbyeMessageAndCloses() {
         new ExitCommand().execute(tasks, ui, storage);
         assertTrue(ui.goodbyeShown);
