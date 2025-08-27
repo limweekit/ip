@@ -209,13 +209,13 @@ class CommandsTest {
 
         // 12th, none should appear
         new OnDateCommand(LocalDate.of(2025, 10, 12)).execute(tasks, ui, storage);
-        assertEquals("No tasks found on that date.", ui.lastBox());
+        assertEquals("Oops! No tasks found on that date.", ui.lastBox());
     }
 
     @Test
     void onDate_emptyList_showsNoTasksMessage() {
         new OnDateCommand(LocalDate.of(2025, 1, 1)).execute(tasks, ui, storage);
-        assertTrue(ui.lastBox().contains("No tasks found on that date"));
+        assertTrue(ui.lastBox().contains("Oops! No tasks found on that date"));
     }
 
     @Test
