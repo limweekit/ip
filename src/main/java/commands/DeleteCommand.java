@@ -8,7 +8,10 @@ import storage.Storage;
 
 public class DeleteCommand extends Command {
     private final int idx;
-    public DeleteCommand(int idx1) { this.idx = idx1; }
+
+    public DeleteCommand(int idx1) {
+        this.idx = idx1;
+    }
 
     @Override
     public void execute(TaskList tasks, Ui ui, Storage storage) throws InvalidIndexException {
