@@ -8,7 +8,10 @@ import storage.Storage;
 
 public class AddTodoCommand extends Command {
     private final String desc;
-    public AddTodoCommand(String desc) { this.desc = desc; }
+
+    public AddTodoCommand(String desc) {
+        this.desc = desc;
+    }
 
     @Override
     public void execute(TaskList tasks, Ui ui, Storage storage) {

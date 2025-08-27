@@ -6,7 +6,6 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 public class Parser {
-
     public static Command parse(String input) throws YapGPTException {
         if (input == null) {
             return new ExitCommand();

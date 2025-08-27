@@ -12,6 +12,6 @@ public enum TaskType {
     }
 
     public String getSymbol() {
-        return symbol;
+        return this.symbol;
     }
 }

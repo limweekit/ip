@@ -4,7 +4,7 @@ import java.util.Scanner;
 
 public class Ui {
     private final Scanner sc = new Scanner(System.in);
-    private static final String divider = "___________________________________________";
+    private static final String DIV = "___________________________________________";
 
     public void showWelcome() {
         boxPrint("Hello! I'm YapGPT, your favourite chatbot.\n"
@@ -16,9 +16,9 @@ public class Ui {
     }
 
     public void boxPrint(String message) {
-        System.out.println(divider);
+        System.out.println(DIV);
         System.out.println(message);
-        System.out.println(divider);
+        System.out.println(DIV);
     }
 
     public void showError(String message) {
@@ -27,7 +27,9 @@ public class Ui {
 
     public String readCommand() {
         System.out.print("You: ");
-        if (!sc.hasNextLine()) return null;
+        if (!sc.hasNextLine()) {
+            return null;
+        }
         return sc.nextLine().trim();
     }
 

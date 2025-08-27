@@ -11,7 +11,11 @@ import java.time.LocalDateTime;
 public class AddDeadlineCommand extends Command {
     private final String desc;
     private final LocalDateTime by;
-    public AddDeadlineCommand(String desc, LocalDateTime by) { this.desc = desc; this.by = by; }
+
+    public AddDeadlineCommand(String desc, LocalDateTime by) {
+        this.desc = desc;
+        this.by = by;
+    }
 
     @Override
     public void execute(TaskList tasks, Ui ui, Storage storage) {
