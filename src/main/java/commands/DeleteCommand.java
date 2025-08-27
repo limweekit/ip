@@ -6,11 +6,14 @@ import model.Task;
 import model.TaskList;
 import storage.Storage;
 
+/**
+ * Handles deleting a task from the task list via its index number.
+ */
 public class DeleteCommand extends Command {
     private final int idx;
 
-    public DeleteCommand(int idx1) {
-        this.idx = idx1;
+    public DeleteCommand(int idx) {
+        this.idx = idx;
     }
 
     @Override

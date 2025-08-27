@@ -18,6 +18,10 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Persistence gateway for YapGPT tasks.
+ * Stores in ./data/yapgpt.txt.
+ */
 public class Storage {
     private final Path dataFile;
 
@@ -45,7 +49,7 @@ public class Storage {
             for (String line : lines) {
                 Task t = decode(line);
                 if (t != null) {
-                    tasks.add(t); // skip corrupted lines
+                    tasks.add(t);
                 }
             }
         } catch (IOException ignored) {
@@ -80,7 +84,7 @@ public class Storage {
 
     /**
      * Decode a line from file into a Task.
-     * Expected formats:
+     * Expected format:
      * T | 1 | desc
      * D | 0 | desc | by
      * E | 1 | desc | from | to
@@ -129,6 +133,13 @@ public class Storage {
         }
     }
 
+    /**
+     * Removes any trailing inline comments from input.
+     * Recognises {@code //} and {@code #} as comment delimiters.
+     *
+     * @param s Token to process.
+     * @return The token with any trailing comments removed.
+     */
     private static String stripTrailingComment(String s) {
         if (s == null) {
             return null;

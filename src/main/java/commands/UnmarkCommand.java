@@ -6,6 +6,9 @@ import model.Task;
 import model.TaskList;
 import storage.Storage;
 
+/**
+ * Handles unmarking a task on the task list based on its index number.
+ */
 public class UnmarkCommand extends Command {
     private final int idx;
     public UnmarkCommand(int idx1) { this.idx = idx1; }

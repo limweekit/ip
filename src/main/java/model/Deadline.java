@@ -3,6 +3,9 @@ package model;
 import java.time.LocalDateTime;
 import parser.DateParser;
 
+/**
+ * A task that contains a date specifying the task's deadline.
+ */
 public class Deadline extends Task {
     protected LocalDateTime by;
 

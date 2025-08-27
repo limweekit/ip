@@ -6,6 +6,9 @@ import model.TaskList;
 import model.ToDo;
 import storage.Storage;
 
+/**
+ * Handles adding a ToDo task to the task list.
+ */
 public class AddTodoCommand extends Command {
     private final String desc;
     public AddTodoCommand(String desc) { this.desc = desc; }
