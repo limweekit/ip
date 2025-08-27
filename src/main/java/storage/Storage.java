@@ -103,9 +103,7 @@ public class Storage {
 
             Task t;
             switch (type) {
-                case "T" -> {
-                    t = new ToDo(desc);
-                }
+                case "T" -> t = new ToDo(desc);
                 case "D" -> {
                     if (parts.length < 4) return null;
                     String rawBy = stripTrailingComment(parts[3]).trim();

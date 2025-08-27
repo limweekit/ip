@@ -18,7 +18,7 @@ public class YapGPT {
         try {
             this.tasks = new TaskList(storage.load());
         } catch (Exception e) {
-            ui.showError("Failed to load tasks. Starting with an empty list.");
+            ui.showError("Failed to load tasks.");
             this.tasks = new TaskList();
         }
     }

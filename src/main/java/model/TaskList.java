@@ -15,7 +15,6 @@ public class TaskList {
     }
 
     public int size() { return tasks.size(); }
-    public boolean isEmpty() { return tasks.isEmpty(); }
 
     public Task get(int idx) {
         return tasks.get(idx - 1);

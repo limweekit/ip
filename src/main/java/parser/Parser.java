@@ -39,8 +39,7 @@ public class Parser {
             LocalDateTime by;
             try {
                 by = DateParser.parseFlexibleDateTime(rawBy);
-            }
-            catch (IllegalArgumentException ex) {
+            } catch (IllegalArgumentException ex) {
                 throw new InvalidDateException("deadline", rawBy);
             }
 
@@ -70,15 +69,13 @@ public class Parser {
             LocalDateTime from, to;
             try {
                 from = DateParser.parseFlexibleDateTime(fromRaw);
-            }
-            catch (IllegalArgumentException ex) {
+            } catch (IllegalArgumentException e) {
                 throw new InvalidDateException("event start", fromRaw);
             }
             String toRaw = b[1].trim();
             try {
                 to = DateParser.parseFlexibleDateTime(toRaw);
-            }
-            catch (IllegalArgumentException ex) {
+            } catch (IllegalArgumentException ex) {
                 throw new InvalidDateException("event end", toRaw);
             }
 
@@ -103,8 +100,11 @@ public class Parser {
         if (input.startsWith("on")) {
             String arg = requireArg(input, "on", 2);
             LocalDate queryDate;
-            try { queryDate = DateParser.parseFlexibleDateTime(arg).toLocalDate(); }
-            catch (Exception e) { throw new InvalidDateException("query", arg); }
+            try {
+                queryDate = DateParser.parseFlexibleDateTime(arg).toLocalDate();
+            } catch (Exception e) {
+                throw new InvalidDateException("query", arg);
+            }
             return new OnDateCommand(queryDate);
         }
 
@@ -120,18 +120,17 @@ public class Parser {
     }
 
     private static int parseIndexOrUsage(String input, String cmd, int after) throws YapGPTException {
-        String number = input.length() > after ? input.substring(after).trim() : "";
-        if (number.isEmpty()) {
-            throw new YapGPTException("Here is the proper usage: " + cmd + " <number>");
+        String arg = input.length() > after ? input.substring(after).trim() : "";
+        if (arg.isEmpty()) {
+            throw new EmptyDescriptionException(cmd);
         }
+        final int idx;
         try {
-            int idx = Integer.parseInt(number);
-            if (idx < 1) {
-                throw new NumberFormatException();
-            }
-            return idx;
+            idx = Integer.parseInt(arg);
         } catch (NumberFormatException e) {
-            throw new YapGPTException("Here is the proper usage: " + cmd + " <number>");
+            throw new UnknownCommandException(input);
         }
+        return idx;
+
     }
 }
