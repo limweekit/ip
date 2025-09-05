@@ -20,7 +20,7 @@ public abstract class Command {
      * @param storage The storage for data persistence.
      * @throws YapGPTException If the command cannot be executed.
      */
-    public abstract void execute(TaskList tasks, Ui ui, Storage storage) throws YapGPTException;
+    public abstract String execute(TaskList tasks, Ui ui, Storage storage) throws YapGPTException;
 
     /**
      * Indicates whether running this command should terminate the programme.

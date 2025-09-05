@@ -17,7 +17,7 @@ public class MarkCommand extends Command {
     }
 
     @Override
-    public void execute(TaskList tasks, Ui ui, Storage storage) throws InvalidIndexException {
+    public String execute(TaskList tasks, Ui ui, Storage storage) throws InvalidIndexException {
         int size = tasks.size();
         if (size == 0) {
             throw new InvalidIndexException("mark", 0);
@@ -27,7 +27,9 @@ public class MarkCommand extends Command {
         }
         Task t = tasks.get(idx);
         t.markAsDone();
-        ui.boxPrint("Nice one! I've marked this task as done:\n  " + t);
         storage.save(new java.util.ArrayList<>(tasks.asList()));
+        String response = "Nice one! I've marked this task as done:\n  " + t;
+
+        return response;
     }
 }

@@ -18,7 +18,7 @@ public class FindCommand extends Command {
     }
 
     @Override
-    public void execute(TaskList tasks, Ui ui, Storage storage) throws YapGPTException {
+    public String execute(TaskList tasks, Ui ui, Storage storage) throws YapGPTException {
         String[] tokens = query.toLowerCase().split("\\s+");
         StringBuilder sb = new StringBuilder();
         int shown = 0;
@@ -46,10 +46,11 @@ public class FindCommand extends Command {
         }
 
         if (shown == 0) {
-            ui.boxPrint("Sorry! No matching tasks found.");
+            return "Sorry! No matching tasks found.";
         } else {
-            ui.boxPrint(sb.toString());
+            return sb.toString();
         }
     }
+
 }
 

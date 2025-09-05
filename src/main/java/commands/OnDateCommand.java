@@ -21,10 +21,11 @@ public class OnDateCommand extends Command {
     }
 
     @Override
-    public void execute(TaskList tasks, Ui ui, Storage storage) {
+    public String execute(TaskList tasks, Ui ui, Storage storage) {
         StringBuilder sb = new StringBuilder("Here are the tasks on "
                 + queryDate.format(DateParser.OUT_DATE) + ":\n");
         int count = 0;
+
         for (Task t : tasks.asList()) {
             if (t instanceof Deadline d) {
                 if (d.getBy().toLocalDate().equals(queryDate)) {
@@ -33,13 +34,18 @@ public class OnDateCommand extends Command {
                 }
             } else if (t instanceof Event ev) {
                 var from = ev.getFrom().toLocalDate();
-                var to   = ev.getTo().toLocalDate();
+                var to = ev.getTo().toLocalDate();
                 if (!queryDate.isBefore(from) && !queryDate.isAfter(to)) {
-                    sb.append("- ").append(ev);
+                    sb.append("- ").append(ev).append("\n");
                     count++;
                 }
             }
         }
-        ui.boxPrint(count == 0 ? "Oops! No tasks found on that date." : sb.toString());
+
+        if (count == 0) {
+            return "Oops! No tasks found on that date.";
+        } else {
+            return sb.toString();
+        }
     }
 }
