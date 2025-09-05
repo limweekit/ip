@@ -17,7 +17,7 @@ public class UnmarkCommand extends Command {
     }
 
     @Override
-    public void execute(TaskList tasks, Ui ui, Storage storage) throws InvalidIndexException {
+    public String execute(TaskList tasks, Ui ui, Storage storage) throws InvalidIndexException {
         int size = tasks.size();
         if (size == 0) {
             throw new InvalidIndexException("unmark", 0);
@@ -27,7 +27,9 @@ public class UnmarkCommand extends Command {
         }
         Task t = tasks.get(idx);
         t.markAsUndone();
-        ui.boxPrint("OK, I've marked this task as not done yet:\n  " + t);
         storage.save(new java.util.ArrayList<>(tasks.asList()));
+        String response = "OK, I've marked this task as not done yet:\n  " + t;
+
+        return response;
     }
 }

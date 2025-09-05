@@ -17,11 +17,14 @@ public class AddTodoCommand extends Command {
     }
 
     @Override
-    public void execute(TaskList tasks, Ui ui, Storage storage) {
+    public String execute(TaskList tasks, Ui ui, Storage storage) {
         Task t = new ToDo(desc);
         tasks.add(t);
-        ui.boxPrint("Got it! I've added this task:\n  " + t
-                + "\nNow you have " + tasks.size() + " tasks in the list.");
         storage.save(new java.util.ArrayList<>(tasks.asList()));
+        String response = "Got it! I've added this task:\n  " + t
+                + "\nNow you have " + tasks.size() + " tasks in the list.";
+
+        return response;
+
     }
 }

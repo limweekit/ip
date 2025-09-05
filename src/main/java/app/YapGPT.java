@@ -35,6 +35,27 @@ public class YapGPT {
     }
 
     /**
+     * Returns the reply string for a single input (used by JavaFX)
+     *
+     * @param input The user input.
+     * @return String response of YapGPT.
+     */
+    public String getResponse(String input) {
+        try {
+            Command c = Parser.parse(input);
+            String reply = c.execute(tasks, ui, storage);
+            if (c.isExit()) {
+                javafx.application.Platform.runLater(javafx.application.Platform::exit);
+            }
+            return reply;
+        } catch (YapGPTException e) {
+            return e.getMessage();
+        } catch (Exception e) {
+            return "Something went wrong: " + e.getMessage();
+        }
+    }
+
+    /**
      * Runs the main application loop.
      */
     public void run() {
