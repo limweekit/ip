@@ -33,8 +33,8 @@ public class OnDateCommand extends Command {
                     count++;
                 }
             } else if (t instanceof Event ev) {
-                var from = ev.getFrom().toLocalDate();
-                var to = ev.getTo().toLocalDate();
+                LocalDate from = ev.getFrom().toLocalDate();
+                LocalDate to = ev.getTo().toLocalDate();
                 if (!queryDate.isBefore(from) && !queryDate.isAfter(to)) {
                     sb.append("- ").append(ev).append("\n");
                     count++;

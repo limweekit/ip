@@ -1,6 +1,7 @@
 package commands;
 
 import app.Ui;
+import exceptions.InvalidDateException;
 import model.Event;
 import model.Task;
 import model.TaskList;
@@ -22,7 +23,10 @@ public class AddEventCommand extends Command {
     }
 
     @Override
-    public String execute(TaskList tasks, Ui ui, Storage storage) {
+    public String execute(TaskList tasks, Ui ui, Storage storage) throws InvalidDateException {
+        if (to.isBefore(from)) {
+            throw InvalidDateException.eventRangeInverted();
+        }
         Task t = new Event(desc, from, to);
         tasks.add(t);
         storage.save(new java.util.ArrayList<>(tasks.asList()));
