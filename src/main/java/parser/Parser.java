@@ -52,6 +52,7 @@ public class Parser {
                 throw new InvalidDateException("deadline", rawBy);
             }
 
+            assert by != null : "Deadline date for 'by' must not be null";
             return new AddDeadlineCommand(desc, by);
         }
 
@@ -88,6 +89,8 @@ public class Parser {
                 throw new InvalidDateException("event end", toRaw);
             }
 
+            assert from != null && to != null : "Event dates for 'from/to' must not be null";
+            assert !to.isBefore(from) : "Event date for 'to' must not be before 'from'";
             return new AddEventCommand(desc, from, to);
         }
 
@@ -164,6 +167,7 @@ public class Parser {
         } catch (NumberFormatException e) {
             throw new UnknownCommandException(input);
         }
+        assert idx > 0 : "Commands use 1-based indexing.";
         return idx;
 
     }

@@ -30,6 +30,8 @@ public class Storage {
     }
 
     public Storage(String filePath) {
+        assert filePath != null && !filePath.isBlank()
+                : "Storage filePath must be non-null";
         this.dataFile = Paths.get(filePath);
     }
 
@@ -39,9 +41,11 @@ public class Storage {
             Path dir = dataFile.getParent();
             if (dir != null && Files.notExists(dir)) {
                 Files.createDirectories(dir);
+                assert Files.exists(dir) : "Storage directory should exist after creation";
             }
             if (Files.notExists(dataFile)) {
                 Files.createFile(dataFile);
+                assert Files.exists(dataFile) : "Storage data file should exist after creation";
                 return tasks; // empty on first run
             }
 
@@ -108,6 +112,9 @@ public class Storage {
             String type = parts[0].trim();
             int done = Integer.parseInt(parts[1].trim());
             String desc = parts[2];
+
+            assert desc != null : "Description must not be null";
+            assert done == 0 || done == 1 : "Done must be 0 or 1";
 
             Task t;
             switch (type) {
