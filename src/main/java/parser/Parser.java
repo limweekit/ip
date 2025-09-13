@@ -125,6 +125,10 @@ public class Parser {
             return new FindCommand(body);
         }
 
+        if (input.equalsIgnoreCase("stats")) {
+            return new StatsCommand();
+        }
+
         throw new UnknownCommandException(input);
     }
 

@@ -6,13 +6,13 @@ import model.Task;
 import model.TaskList;
 import storage.Storage;
 
+/**
+ * Command that searches task descriptions that match the given query strings (case-insensitive).
+ * Multiple words are treated as an AND query (all query words must appear in any order).
+ */
 public class FindCommand extends Command {
     private final String query;
 
-    /**
-     * Command that searches task descriptions that match the given query strings (case-insensitive).
-     * Multiple words are treated as an AND query (all query words must appear in any order).
-     */
     public FindCommand(String query) {
         this.query = query.trim();
     }

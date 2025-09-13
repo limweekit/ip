@@ -43,6 +43,15 @@ public class Task {
     }
 
     /**
+     * Returns the type of the task.
+     *
+     * @return The TaskType of the task.
+     */
+    public TaskType getType() {
+        return this.type;
+    }
+
+    /**
      * Marks the task as completed.
      */
     public void markAsDone() {
