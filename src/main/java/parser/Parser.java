@@ -116,7 +116,7 @@ public class Parser {
             throw InvalidDateException.eventRangeInverted();
         }
 
-        assert !to.isBefore(from)         : "event /to must not be before /from";
+        assert !to.isBefore(from) : "event /to must not be before /from";
         return new AddEventCommand(desc, from, to);
     }
 

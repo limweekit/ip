@@ -11,12 +11,16 @@
          prefWidth="400.0"
          type="javafx.scene.layout.HBox"
          xmlns="http://javafx.com/javafx/17"
-         xmlns:fx="http://javafx.com/fxml/1">
+         xmlns:fx="http://javafx.com/fxml/1"
+         styleClass="dialog">
     <children>
-        <Label fx:id="dialog" text="Label" wrapText="true" minHeight="-Infinity"/>
-        <ImageView fx:id="displayPicture" fitHeight="99.0" fitWidth="99.0" pickOnBounds="true" preserveRatio="true" />
+        <Label fx:id="dialog" text="Label" wrapText="true" minHeight="-Infinity" styleClass="bubble"/>
+        <ImageView fx:id="displayPicture" fitHeight="40.0" fitWidth="40.0"
+                   pickOnBounds="true" preserveRatio="true" styleClass="avatar"/>
     </children>
     <padding>
-        <Insets bottom="15.0" left="5.0" right="5.0" top="15.0" />
+        <Insets bottom="10.0" left="5.0" right="5.0" top="10.0"/>
     </padding>
+    <spacing>8.0</spacing>
 </fx:root>
+

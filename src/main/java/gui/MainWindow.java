@@ -1,47 +1,82 @@
 package gui;
 
 import app.YapGPT;
+import javafx.animation.FadeTransition;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
+import javafx.scene.Node;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
-import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
+import javafx.util.Duration;
 
-public class MainWindow extends AnchorPane {
+/**
+ * Controller for the main GUI window.
+ */
+public class MainWindow {
+
     @FXML private ScrollPane scrollPane;
     @FXML private VBox dialogContainer;
     @FXML private TextField userInput;
-    @FXML private Button sendButton;
 
     private YapGPT yapgpt;
 
-    private final Image userImage = new Image(getClass().getResourceAsStream("/images/DaUser.png"));
-    private final Image dukeImage = new Image(getClass().getResourceAsStream("/images/DaDuke.png"));
+    private final Image userImage = new Image(
+            MainWindow.class.getResourceAsStream("/images/DaUser.png"));
+    private final Image dukeImage = new Image(
+            MainWindow.class.getResourceAsStream("/images/DaDuke.png"));
 
     @FXML
-    public void initialize() {
+    private void initialize() {
+        // Auto-scroll to bottom when content grows
         scrollPane.vvalueProperty().bind(dialogContainer.heightProperty());
     }
 
+    /** Injects the YapGPT instance. */
     public void setYapGPT(YapGPT y) {
         this.yapgpt = y;
+        String welcome = "Hello! I'm YapGPT, your favourite chatbot. What can I do for you?";
+        DialogBox bot = DialogBox.getDukeDialog(welcome, dukeImage);
+        dialogContainer.getChildren().add(bot);
+        fadeIn(bot);
+    }
+
+    /** Give focus to the input on startup. */
+    public void requestFocusOnInput() {
+        if (userInput != null) {
+            userInput.requestFocus();
+        }
     }
 
     /**
-     * Handles the event where user submits input via the text field or the Send button.
+     * Handles sending user input and displaying YapGPT's response.
      */
     @FXML
     private void handleUserInput() {
         String input = userInput.getText();
-        if (input == null || input.isBlank()) return;
+        if (input == null || input.isBlank()) {
+            return;
+        }
 
         String response = yapgpt.getResponse(input);
-        dialogContainer.getChildren().addAll(
-                DialogBox.getUserDialog(input, userImage),
-                DialogBox.getDukeDialog(response, dukeImage)
-        );
+
+        DialogBox user = DialogBox.getUserDialog(input, userImage);
+        DialogBox bot  = DialogBox.getDukeDialog(response, dukeImage);
+
+        dialogContainer.getChildren().addAll(user, bot);
+        fadeIn(user);
+        fadeIn(bot);
+
         userInput.clear();
+    }
+
+    /**
+     * Small fade-in for new messages.
+     */
+    private void fadeIn(Node n) {
+        FadeTransition ft = new FadeTransition(Duration.millis(200), n);
+        ft.setFromValue(0.0);
+        ft.setToValue(1.0);
+        ft.play();
     }
 }
