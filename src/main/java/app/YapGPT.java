@@ -44,9 +44,6 @@ public class YapGPT {
         try {
             Command c = Parser.parse(input);
             String reply = c.execute(tasks, ui, storage);
-            if (c.isExit()) {
-                javafx.application.Platform.runLater(javafx.application.Platform::exit);
-            }
             return reply;
         } catch (YapGPTException e) {
             return e.getMessage();
@@ -54,6 +51,7 @@ public class YapGPT {
             return "Something went wrong: " + e.getMessage();
         }
     }
+
 
     /**
      * Runs the main application loop.

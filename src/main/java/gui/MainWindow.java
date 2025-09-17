@@ -32,7 +32,9 @@ public class MainWindow {
         scrollPane.vvalueProperty().bind(dialogContainer.heightProperty());
     }
 
-    /** Injects the YapGPT instance. */
+    /**
+     * Injects the YapGPT instance.
+     */
     public void setYapGPT(YapGPT y) {
         this.yapgpt = y;
         String welcome = "Beep-Boop! Hello, I'm YapGPT, your favourite chatbot. What can I do for you?";
@@ -41,7 +43,9 @@ public class MainWindow {
         fadeIn(bot);
     }
 
-    /** Give focus to the input on startup. */
+    /**
+     * Give focus to the input on startup.
+     */
     public void requestFocusOnInput() {
         if (userInput != null) {
             userInput.requestFocus();
@@ -67,7 +71,18 @@ public class MainWindow {
         fadeIn(user);
         fadeIn(bot);
 
+        boolean isExit = input.trim().equalsIgnoreCase("bye");
+
         userInput.clear();
+
+        if (isExit) {
+            userInput.setDisable(true);
+
+            javafx.animation.PauseTransition delay =
+                    new javafx.animation.PauseTransition(javafx.util.Duration.seconds(1.5));
+            delay.setOnFinished(e -> javafx.application.Platform.exit());
+            delay.play();
+        }
     }
 
     /**

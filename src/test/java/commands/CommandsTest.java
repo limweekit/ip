@@ -240,7 +240,5 @@ class CommandsTest {
         String out = new ExitCommand().execute(tasks, ui, storage);
         assertNotNull(out);
         assertTrue(out.toLowerCase().contains("bye"));
-        // If ExitCommand no longer touches Ui, these flags will remain false.
-        // Keeping assertions only on the returned message.
     }
 }
