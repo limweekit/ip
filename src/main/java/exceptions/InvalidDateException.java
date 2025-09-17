@@ -20,7 +20,7 @@ public class InvalidDateException extends YapGPTException {
     }
 
     /**
-     * Specific case where event time range is inverted (to < from).
+     * Handles specific cases where event time range is inverted (to < from).
      *
      * @return An InvalidDateException with the event range message.
      */
