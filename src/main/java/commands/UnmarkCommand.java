@@ -28,7 +28,7 @@ public class UnmarkCommand extends Command {
         Task t = tasks.get(idx);
         t.markAsUndone();
         storage.save(new java.util.ArrayList<>(tasks.asList()));
-        String response = "OK, I've marked this task as not done:\n  "
+        String response = "OK, I've unmarked this task:\n  "
                 + t
                 + "\nLet's get to working on it then!";
 

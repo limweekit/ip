@@ -44,7 +44,7 @@ public class TaskList {
      */
     public String renderList() {
         if (tasks.isEmpty()) {
-            return "No tasks added yet.";
+            return "It's kinda empty in here! No tasks have been added yet.";
         }
         StringBuilder sb = new StringBuilder("Verifying content...\nHere are the tasks in your list:\n");
         for (int i = 0; i < tasks.size(); i++) {

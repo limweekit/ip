@@ -25,7 +25,8 @@ public class AddDeadlineCommand extends Command {
         Task t = new Deadline(desc, by);
         tasks.add(t);
         storage.save(new java.util.ArrayList<>(tasks.asList()));
-        String response = "Data received! I've added this task:\n  " + t
+        String response = "Data received! I've added this task:\n  "
+                + t
                 + "\nNow you have " + tasks.size() + " tasks in the list.";
 
         return response;

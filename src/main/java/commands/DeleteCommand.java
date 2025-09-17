@@ -27,7 +27,7 @@ public class DeleteCommand extends Command {
         }
         Task removed = tasks.remove(idx);
         storage.save(new java.util.ArrayList<>(tasks.asList()));
-        String response = "Processing request...\nOK, I've removed this task:\n  " + removed
+        String response = "Processing request...\nOK, I've deleted this task:\n  " + removed
                 + "\nNow you have " + tasks.size() + " tasks in the list.";
 
         return response;

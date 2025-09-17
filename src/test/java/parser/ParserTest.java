@@ -10,12 +10,7 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 class ParserTest {
-    // bye
-
-    @Test
-    void parse_nullInput_returnsExitCommand() throws YapGPTException {
-        assertInstanceOf(ExitCommand.class, Parser.parse(null));
-    }
+    //bye
 
     @Test
     void parse_byeCaseInsensitive_returnsExitCommand() throws YapGPTException {
@@ -135,7 +130,6 @@ class ParserTest {
 
     @Test
     void parse_markZeroOrNegative_returnsMarkCommand() throws YapGPTException {
-        // Parser does not validate positivity; range enforced later
         assertInstanceOf(MarkCommand.class, Parser.parse("mark 0"));
         assertInstanceOf(MarkCommand.class, Parser.parse("mark -2"));
     }

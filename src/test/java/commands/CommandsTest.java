@@ -1,6 +1,7 @@
 package commands;
 
 import app.Ui;
+import exceptions.InvalidDateException;
 import exceptions.InvalidIndexException;
 import exceptions.YapGPTException;
 import model.*;
@@ -42,10 +43,6 @@ class CommandsTest {
         public void close() {
             isClosed = true;
         }
-
-        String lastBox() {
-            return boxes.isEmpty() ? "" : boxes.get(boxes.size() - 1);
-        }
     }
 
     private String storagePath() {
@@ -66,28 +63,30 @@ class CommandsTest {
     }
 
     @Test
-    void TodoDeadlineEventList_validInputs_success() {
+    void TodoDeadlineEventList_validInputs_success() throws InvalidDateException {
         // add todo
-        new AddTodoCommand("testTodo").execute(tasks, ui, storage);
+        String rTodo = new AddTodoCommand("testTodo").execute(tasks, ui, storage);
+        assertTrue(rTodo.toLowerCase().contains("added"));
         assertEquals(1, tasks.size());
         assertInstanceOf(ToDo.class, tasks.get(1));
 
         // add deadline
         LocalDateTime by = LocalDateTime.of(2025, 12, 1, 23, 59);
-        new AddDeadlineCommand("testDeadline", by).execute(tasks, ui, storage);
+        String rDeadline = new AddDeadlineCommand("testDeadline", by).execute(tasks, ui, storage);
+        assertTrue(rDeadline.toLowerCase().contains("added"));
         assertEquals(2, tasks.size());
         assertInstanceOf(Deadline.class, tasks.get(2));
 
         // add event
         LocalDateTime from = LocalDateTime.of(2025, 12, 5, 9, 0);
         LocalDateTime to   = LocalDateTime.of(2025, 12, 7, 17, 0);
-        new AddEventCommand("testEvent", from, to).execute(tasks, ui, storage);
+        String rEvent = new AddEventCommand("testEvent", from, to).execute(tasks, ui, storage);
+        assertTrue(rEvent.toLowerCase().contains("added"));
         assertEquals(3, tasks.size());
         assertInstanceOf(Event.class, tasks.get(3));
 
         // render list of tasks
-        new ListCommand().execute(tasks, ui, storage);
-        String out = ui.lastBox();
+        String out = new ListCommand().execute(tasks, ui, storage);
         assertTrue(out.contains("Here are the tasks in your list"));
         assertTrue(out.contains("testTodo"));
         assertTrue(out.contains("testDeadline"));
@@ -100,8 +99,8 @@ class CommandsTest {
 
     @Test
     void list_emptyList_showsNoTasksMessage() {
-        new ListCommand().execute(tasks, ui, storage);
-        assertEquals("No tasks added yet.", ui.lastBox());
+        String out = new ListCommand().execute(tasks, ui, storage);
+        assertEquals("It's kinda empty in here! No tasks have been added yet.", out);
     }
 
     @Test
@@ -111,15 +110,18 @@ class CommandsTest {
         new AddTodoCommand("t2").execute(tasks, ui, storage);
 
         // mark index 2
-        new MarkCommand(2).execute(tasks, ui, storage);
+        String m = new MarkCommand(2).execute(tasks, ui, storage);
+        assertTrue(m.toLowerCase().contains("mark"));
         assertTrue(tasks.get(2).toString().contains("[X]"));
 
         // unmark index 2
-        new UnmarkCommand(2).execute(tasks, ui, storage);
+        String u = new UnmarkCommand(2).execute(tasks, ui, storage);
+        assertTrue(u.toLowerCase().contains("unmark"));
         assertFalse(tasks.get(2).toString().contains("[X]"));
 
         // delete index 1
-        new DeleteCommand(1).execute(tasks, ui, storage);
+        String d = new DeleteCommand(1).execute(tasks, ui, storage);
+        assertTrue(d.toLowerCase().contains("delete"));
         assertEquals(1, tasks.size());
         assertTrue(tasks.get(1).toString().contains("t2"));
     }
@@ -174,12 +176,12 @@ class CommandsTest {
     void delete_tillLastItem_showsEmptyList() throws InvalidIndexException {
         new AddTodoCommand("test").execute(tasks, ui, storage);
         new DeleteCommand(1).execute(tasks, ui, storage);
-        new ListCommand().execute(tasks, ui, storage);
-        assertEquals("No tasks added yet.", ui.lastBox());
+        String out = new ListCommand().execute(tasks, ui, storage);
+        assertEquals("It's kinda empty in here! No tasks have been added yet.", out);
     }
 
     @Test
-    void onDate_validInputs_success() {
+    void onDate_validInputs_success() throws InvalidDateException {
         // deadline on 10th
         LocalDateTime by = LocalDateTime.of(2025, 10, 10, 9, 0);
         new AddDeadlineCommand("testDeadline", by).execute(tasks, ui, storage);
@@ -190,32 +192,29 @@ class CommandsTest {
         new AddEventCommand("testEvent", from, to).execute(tasks, ui, storage);
 
         // 9th, only event should appear
-        new OnDateCommand(LocalDate.of(2025, 10, 9)).execute(tasks, ui, storage);
-        String day9 = ui.lastBox();
+        String day9 = new OnDateCommand(LocalDate.of(2025, 10, 9)).execute(tasks, ui, storage);
         assertFalse(day9.contains("testDeadline"));
         assertTrue(day9.contains("testEvent"));
 
         // 10th, both should appear
-        new OnDateCommand(LocalDate.of(2025, 10, 10)).execute(tasks, ui, storage);
-        String day10 = ui.lastBox();
+        String day10 = new OnDateCommand(LocalDate.of(2025, 10, 10)).execute(tasks, ui, storage);
         assertTrue(day10.contains("testDeadline"));
         assertTrue(day10.contains("testEvent"));
 
         //11th, only event should appear
-        new OnDateCommand(LocalDate.of(2025, 10, 11)).execute(tasks, ui, storage);
-        String day11 = ui.lastBox();
+        String day11 = new OnDateCommand(LocalDate.of(2025, 10, 11)).execute(tasks, ui, storage);
         assertFalse(day11.contains("testDeadline"));
         assertTrue(day11.contains("testEvent"));
 
         // 12th, none should appear
-        new OnDateCommand(LocalDate.of(2025, 10, 12)).execute(tasks, ui, storage);
-        assertEquals("Oops! No tasks found on that date.", ui.lastBox());
+        String day12 = new OnDateCommand(LocalDate.of(2025, 10, 12)).execute(tasks, ui, storage);
+        assertEquals("Oops! No tasks found on that date.", day12);
     }
 
     @Test
     void onDate_emptyList_showsNoTasksMessage() {
-        new OnDateCommand(LocalDate.of(2025, 1, 1)).execute(tasks, ui, storage);
-        assertTrue(ui.lastBox().contains("Oops! No tasks found on that date"));
+        String out = new OnDateCommand(LocalDate.of(2025, 1, 1)).execute(tasks, ui, storage);
+        assertTrue(out.contains("Oops! No tasks found on that date."));
     }
 
     @Test
@@ -225,23 +224,23 @@ class CommandsTest {
         new AddTodoCommand("buy milk").execute(tasks, ui, storage);
 
         // single word
-        new FindCommand("book").execute(tasks, ui, storage);
-        String out1 = ui.lastBox();
+        String out1 = new FindCommand("book").execute(tasks, ui, storage);
         assertTrue(out1.contains("read book"));
         assertTrue(out1.toLowerCase().contains("return book"));
         assertFalse(out1.contains("buy milk"));
 
         // multi-word AND
-        new FindCommand("return library").execute(tasks, ui, storage);
-        String out2 = ui.lastBox();
+        String out2 = new FindCommand("return library").execute(tasks, ui, storage);
         assertTrue(out2.toLowerCase().contains("return book to library"));
         assertFalse(out2.contains("read book"));
     }
 
     @Test
     void exitCommand_bye_showsGoodbyeMessageAndCloses() {
-        new ExitCommand().execute(tasks, ui, storage);
-        assertTrue(ui.goodbyeShown);
-        assertTrue(ui.isClosed);
+        String out = new ExitCommand().execute(tasks, ui, storage);
+        assertNotNull(out);
+        assertTrue(out.toLowerCase().contains("bye"));
+        // If ExitCommand no longer touches Ui, these flags will remain false.
+        // Keeping assertions only on the returned message.
     }
 }

@@ -40,8 +40,13 @@ public class StatsCommand extends Command {
         int TOTAL = TODOS + DEADLINES + EVENTS;
 
         String response = String.format(
-                "Fetching information...\n"
-                + "Task stats:\n- ToDo: %d\n- Deadline: %d\n- Event: %d\nTotal: %d",
+                """
+                        Fetching information...
+                        Task stats:
+                        - ToDo: %d
+                        - Deadline: %d
+                        - Event: %d
+                        Total: %d""",
                 TODOS, DEADLINES, EVENTS, TOTAL);
 
         return response;

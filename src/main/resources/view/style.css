@@ -36,7 +36,7 @@
   -fx-font-weight: 600;
   -fx-background-radius: 14;
   -fx-padding: 10 16 10 16;
-  -fx-effect: drop shadow(gaussian, rgba(37,99,235,0.20), 8, 0.2, 0, 2);
+  -fx-effect: dropshadow(gaussian, rgba(37,99,235,0.20), 8, 0.2, 0, 2);
 }
 .send-button:hover {
   -fx-background-color: #1d4ed8;
@@ -60,7 +60,7 @@
   -fx-background-radius: 14;
   -fx-wrap-text: true;
   -fx-max-width: 280; /* prevents super-wide bubbles */
-  -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.08), 8, 0.2, 0, 2);
+  -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.18), 8, 0.2, 0, 2);
   -fx-border-width: 1;
 }
 

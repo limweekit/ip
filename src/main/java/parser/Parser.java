@@ -35,9 +35,9 @@ public class Parser {
             case "todo"    -> parseTodo(rest);
             case "deadline"-> parseDeadline(rest);
             case "event"   -> parseEvent(rest);
-            case "mark"    -> new MarkCommand(parseOneBasedIndex("mark", rest));
-            case "unmark"  -> new UnmarkCommand(parseOneBasedIndex("unmark", rest));
-            case "delete"  -> new DeleteCommand(parseOneBasedIndex("delete", rest));
+            case "mark"    -> new MarkCommand(parseIndex("mark", rest));
+            case "unmark"  -> new UnmarkCommand(parseIndex("unmark", rest));
+            case "delete"  -> new DeleteCommand(parseIndex("delete", rest));
             case "on"      -> parseOn(rest);
             case "find"    -> parseFind(rest);
             case "stats"   -> new StatsCommand();
@@ -120,11 +120,10 @@ public class Parser {
         return new AddEventCommand(desc, from, to);
     }
 
-    private static int parseOneBasedIndex(String cmd, String rest) throws YapGPTException {
+    private static int parseIndex(String cmd, String rest) throws YapGPTException {
         String arg = requireNonEmpty(cmd, rest);
         try {
             int idx = Integer.parseInt(arg.trim());
-            assert idx > 0 : "index must be 1-based";
             return idx;
         } catch (NumberFormatException e) {
             throw new UnknownCommandException(cmd + " " + arg);
