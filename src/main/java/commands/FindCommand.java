@@ -27,14 +27,14 @@ public class FindCommand extends Command {
             Task t = tasks.get(i);
             String desc = t.getDescription().toLowerCase();
 
-            boolean allMatch = true;
+            boolean doesAllMatch = true;
             for (String tkn : tokens) {
                 if (!desc.contains(tkn)) {
-                    allMatch = false;
+                    doesAllMatch = false;
                     break;
                 }
             }
-            if (allMatch) {
+            if (doesAllMatch) {
                 if (shown == 0) {
                     sb.append("Analyzing data...\nHere are the matching tasks in your list:\n");
                 } else {
