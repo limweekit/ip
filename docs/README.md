@@ -15,7 +15,7 @@ or through the Graphical User Interface (GUI).
 
 ### 1. Add different type of tasks
 
-Add a todo, deadline and event task for yapGPT to keep track of!
+Add a todo, deadline and event task for yapGPT to keep track of.
 ```
 // Adds a todo task
 todo borrow a book from the library
@@ -31,6 +31,7 @@ event attend a book club /from 2025-09-01 1200 /to 2025-09-01 1400
 
 See your current list of tasks using the `list` command.
 ```
+// Returns the current list of tasks
 list
 ```
 ### 3. Mark or unmark your tasks accordingly
@@ -75,7 +76,7 @@ find borrow book
 
 Check how many tasks of each type (todo, deadline, event) there are using the `stats` command.
 ````
-// Returns the count of each type of tasks.
+// Returns the count of each type of tasks
 stats
 ````
 
@@ -83,7 +84,7 @@ stats
 
 Exit the programme using the `bye` command. 
 ````
-// Displays goodbye message and closes the programme.
+// Displays goodbye message and closes the programme
 bye
 ````
 ---
