@@ -35,7 +35,7 @@ public class MainWindow {
     /** Injects the YapGPT instance. */
     public void setYapGPT(YapGPT y) {
         this.yapgpt = y;
-        String welcome = "Hello! I'm YapGPT, your favourite chatbot. What can I do for you?";
+        String welcome = "Beep-Boop! Hello, I'm YapGPT, your favourite chatbot. What can I do for you?";
         DialogBox bot = DialogBox.getDukeDialog(welcome, dukeImage);
         dialogContainer.getChildren().add(bot);
         fadeIn(bot);

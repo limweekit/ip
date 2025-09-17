@@ -28,7 +28,10 @@ public class MarkCommand extends Command {
         Task t = tasks.get(idx);
         t.markAsDone();
         storage.save(new java.util.ArrayList<>(tasks.asList()));
-        String response = "Nice one! I've marked this task as done:\n  " + t;
+        String response = "Nice, I see you're being productive!\n"
+                + "I've marked this task as done:\n  "
+                + t
+                + "\nLet's keep it rolling!";
 
         return response;
     }

@@ -36,7 +36,7 @@ public class FindCommand extends Command {
             }
             if (allMatch) {
                 if (shown == 0) {
-                    sb.append("Here are the matching tasks in your list:\n");
+                    sb.append("Analyzing data...\nHere are the matching tasks in your list:\n");
                 } else {
                     sb.append('\n');
                 }

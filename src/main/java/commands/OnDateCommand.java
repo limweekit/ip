@@ -22,7 +22,8 @@ public class OnDateCommand extends Command {
 
     @Override
     public String execute(TaskList tasks, Ui ui, Storage storage) {
-        StringBuilder sb = new StringBuilder("Here are the tasks on "
+        StringBuilder sb = new StringBuilder("Running internal checks...\n" +
+                "Here are the tasks on "
                 + queryDate.format(DateParser.OUT_DATE) + ":\n");
         int count = 0;
 
