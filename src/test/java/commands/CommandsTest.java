@@ -21,7 +21,7 @@ class CommandsTest {
     static class TestUi extends Ui {
         final ArrayList<String> boxes = new ArrayList<>();
         final ArrayList<String> errors = new ArrayList<>();
-        boolean goodbyeShown = false;
+        boolean hasGoodbyeShown = false;
         boolean isClosed = false;
 
         @Override
@@ -36,7 +36,7 @@ class CommandsTest {
 
         @Override
         public void showGoodbye() {
-            goodbyeShown = true;
+            hasGoodbyeShown = true;
         }
 
         @Override
