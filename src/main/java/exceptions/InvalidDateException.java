@@ -10,7 +10,7 @@ public class InvalidDateException extends YapGPTException {
                     + "d/M/yyyy HHmm, or MMM dd yyyy (e.g., Oct 15 2019).";
 
     /**
-     * General case: bad or missing date/time token for a given context.
+     * General case of bad or missing date/time token for a given context.
      *
      * @param when The context in which the invalid date occurred (e.g. "deadline").
      * @param raw  The raw user input for the date/time.
