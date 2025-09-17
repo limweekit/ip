@@ -92,6 +92,8 @@ public class Storage {
      * T | 1 | desc
      * D | 0 | desc | by
      * E | 1 | desc | from | to
+     *
+     * @param line The line of text to be decoded.
      */
     private Task decode(String line) {
         if (line == null) {
