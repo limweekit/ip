@@ -43,13 +43,15 @@ public class DateParser {
             try {
                 return LocalDateTime.parse(text, f);
             }
-            catch (DateTimeParseException ignored) {}
+            catch (DateTimeParseException ignored) {
+            }
         }
         for (DateTimeFormatter f : DATE_ONLY_INPUTS) {
             try {
                 return LocalDate.parse(text, f).atStartOfDay();
             }
-            catch (DateTimeParseException ignored) {}
+            catch (DateTimeParseException ignored) {
+            }
         }
         throw new IllegalArgumentException("Unrecognised date/time format: " + text);
     }
